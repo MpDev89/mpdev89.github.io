@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marco | Embedded Software Engineer</title>
+  <meta name="description" content="Embedded Software Engineer building firmware and Android applications across ESP-IDF, Zephyr, Nordic, u-blox NORA-B10x, Arduino, and PlatformIO." />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-soft: #121b2d;
+      --card: #121a2b;
+      --text: #e5ecf6;
+      --muted: #9fb0c8;
+      --line: rgba(255,255,255,0.08);
+      --accent: #6ee7b7;
+      --accent-2: #60a5fa;
+      --shadow: 0 12px 40px rgba(0,0,0,0.28);
+      --radius: 18px;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(96,165,250,0.18), transparent 30%),
+        radial-gradient(circle at top left, rgba(110,231,183,0.16), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(11,18,32,0.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus { color: var(--text); }
+
+    .hero {
+      padding: 5rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .hero-copy,
+    .hero-side,
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-copy {
+      padding: 2.2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h1, h2, h3 { line-height: 1.15; margin: 0 0 1rem; }
+    h1 { font-size: clamp(2.2rem, 5vw, 4rem); }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
+    h3 { font-size: 1.1rem; }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.06rem;
+      max-width: 62ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      margin: 1.4rem 0 1.6rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-weight: 600;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #06111f;
+      border: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .meta-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.9rem;
+    }
+
+    .meta-box strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .meta-box span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .hero-side {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 1rem;
+    }
+
+    .mini-card p,
+    .card p,
+    .stack,
+    .muted { color: var(--muted); }
+
+    section {
+      padding: 1.2rem 0 3rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      padding: 1.25rem;
+      height: 100%;
+    }
+
+    .chip-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .chip {
+      padding: 0.55rem 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      font-size: 0.92rem;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 0.6rem;
+    }
+
+    .project-type {
+      color: #0d1726;
+      background: linear-gradient(135deg, rgba(110,231,183,0.95), rgba(96,165,250,0.95));
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-links a {
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .stack {
+      font-size: 0.92rem;
+      margin-top: 0.75rem;
+    }
+
+    .list {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: var(--muted);
+    }
+
+    .list li + li { margin-top: 0.45rem; }
+
+    .resource {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 1.5rem 0 2.8rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding-top: 3.75rem; }
+      .hero-copy, .hero-side, .card { padding: 1rem; }
+      .section-head { align-items: start; flex-direction: column; }
+      .nav-inner { align-items: start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">Marco / MpDev89</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#tech">Technologies</a>
+        <a href="#projects">Projects</a>
+        <a href="#resources">Resources</a>
+        <a href="#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Embedded software · IoT · Android · RTOS</div>
+          <h1>Building practical firmware and connected device solutions.</h1>
+          <p class="lead">
+            I'm Marco, an Embedded Software Engineer working across ESP-IDF, Zephyr, Nordic, u-blox NORA-B10x, Arduino, PlatformIO, and Android.
+            I build reusable demos, starter projects, and connected device applications focused on firmware architecture, wireless communication, OTA workflows, and device integration.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#projects">View featured projects</a>
+            <a class="btn btn-secondary" href="https://github.com/MpDev89" target="_blank" rel="noreferrer">Open GitHub profile</a>
+          </div>
+          <div class="hero-meta">
+            <div class="meta-box">
+              <strong>Firmware</strong>
+              <span>Reusable demos, templates, and embedded workflows</span>
+            </div>
+            <div class="meta-box">
+              <strong>Connectivity</strong>
+              <span>BLE, Wi-Fi, HTTP APIs, OTA, IoT integration</span>
+            </div>
+            <div class="meta-box">
+              <strong>Android</strong>
+              <span>Companion app development for device interaction</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-side" aria-label="Quick highlights">
+          <div class="mini-card">
+            <h3>What I build</h3>
+            <p>Firmware demos, multi-platform prototypes, connected device applications, and reusable starter structures.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Current focus</h3>
+            <p>Production-oriented embedded workflows, better documentation, and integration between firmware and Android apps.</p>
+          </div>
+          <div class="mini-card">
+            <h3>Best place to start</h3>
+            <p>Explore the featured repositories below, then visit my GitHub profile for the full collection.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>About</h2>
+            <p class="muted">A concise overview of what I work on and how I approach embedded development.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Hands-on embedded development</h3>
+            <p>
+              My work spans practical firmware projects, proof-of-concept implementations, connected device solutions, and reusable technical demos.
+              I enjoy building systems that combine reliable embedded logic, wireless communication, and clean project structure.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Embedded + app integration</h3>
+            <p>
+              Alongside firmware, I also develop Android applications for device control, interaction, and connected product use cases,
+              helping bridge the gap between hardware and user-facing software.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tech">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Technologies and ecosystems</h2>
+            <p class="muted">The platforms, frameworks, and development environments I currently use and explore.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="chip-wrap">
+            <span class="chip">ESP32 / ESP-IDF</span>
+            <span class="chip">Nordic</span>
+            <span class="chip">u-blox NORA-B10x</span>
+            <span class="chip">Zephyr</span>
+            <span class="chip">Arduino</span>
+            <span class="chip">PlatformIO</span>
+            <span class="chip">FreeRTOS</span>
+            <span class="chip">BLE</span>
+            <span class="chip">Wi-Fi</span>
+            <span class="chip">HTTP APIs</span>
+            <span class="chip">OTA workflows</span>
+            <span class="chip">Android</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Featured projects</h2>
+            <p class="muted">A selected set of repositories that best represent my embedded and application work.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <div class="project-top">
+              <h3>ESP32_IDF_HTTP_ENDPOINT</h3>
+              <span class="project-type">ESP-IDF</span>
+            </div>
+            <p>
+              A practical ESP32 HTTP endpoint demo built with ESP-IDF, designed as a compact starting point for connected-device firmware projects.
+            </p>
+            <p class="stack">Stack: ESP32 · ESP-IDF · HTTP · Wi-Fi</p>
+            <div class="project-links">
+              <a href="https://github.com/MpDev89/ESP32_IDF_HTTP_ENDPOINT" target="_blank" rel="noreferrer">View repository →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="project-top">
+              <h3>ESP32_IDF_OTA_demo</h3>
+              <span class="project-type">OTA</span>
+            </div>
+            <p>
+              An ESP32 OTA firmware update demo showing a practical update workflow, useful for learning and evolving toward production-oriented update strategies.
+            </p>
+            <p class="stack">Stack: ESP32 · ESP-IDF · OTA · HTTPS</p>
+            <div class="project-links">
+              <a href="https://github.com/MpDev89/ESP32_IDF_OTA_demo" target="_blank" rel="noreferrer">View repository →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="project-top">
+              <h3>NORAB106_BT_HeartRate</h3>
+              <span class="project-type">Nordic / NORA</span>
+            </div>
+            <p>
+              A Nordic / u-blox NORA-B10x Bluetooth project focused on connected-device experimentation and wireless embedded development.
+            </p>
+            <p class="stack">Stack: Nordic · u-blox NORA-B10x · BLE</p>
+            <div class="project-links">
+              <a href="https://github.com/MpDev89/NORAB106_BT_HeartRate" target="_blank" rel="noreferrer">View repository →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="project-top">
+              <h3>ESP32_IoT_AndroidApp</h3>
+              <span class="project-type">Android</span>
+            </div>
+            <p>
+              An Android application example created to interact with embedded and IoT use cases, helping demonstrate end-to-end device-to-app flows.
+            </p>
+            <p class="stack">Stack: Android · Java/Kotlin · IoT integration</p>
+            <div class="project-links">
+              <a href="https://github.com/MpDev89/ESP32_IoT_AndroidApp" target="_blank" rel="noreferrer">View repository →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Resources and next steps</h2>
+            <p class="muted">Use this area to guide visitors toward a free resource or a paid starter product.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card resource">
+            <h3>Free firmware release checklist</h3>
+            <p>
+              Add your PDF checklist here when ready. This can become your primary lead magnet for GitHub visitors,
+              LinkedIn traffic, and embedded developers who want a practical release workflow reference.
+            </p>
+            <a class="btn btn-secondary" href="#" aria-disabled="true">Add checklist link</a>
+          </article>
+
+          <article class="card resource">
+            <h3>ESP-IDF Starter Pro</h3>
+            <p>
+              Link your Gumroad product here to turn the portfolio into a lightweight conversion page for visitors interested in reusable embedded starter kits.
+            </p>
+            <a class="btn btn-primary" href="https://gumroad.com" target="_blank" rel="noreferrer">Add product link</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="links">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Links</h2>
+            <p class="muted">Places where visitors can follow my work, explore repositories, or get in touch professionally.</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <h3>GitHub</h3>
+            <p>Browse my full collection of embedded projects, demos, experiments, and starter structures.</p>
+            <div class="project-links">
+              <a href="https://github.com/MpDev89" target="_blank" rel="noreferrer">Open GitHub →</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>LinkedIn</h3>
+            <p>Use this slot for your professional profile and to share updates about new projects and releases.</p>
+            <div class="project-links">
+              <a href="https://www.linkedin.com/in/marconatale-parise-48a07b94" target="_blank" rel="noreferrer">Add LinkedIn link →</a>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Product / resource</h3>
+            <p>Use this card for your Gumroad page, checklist landing page, or any future portfolio section.</p>
+            <div class="project-links">
+              <a href="https://mpdev89.gumroad.com/" target="_blank" rel="noreferrer">Add final link →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <strong>Marco · MpDev89</strong>
+      <div class="footer-links">
+        <a href="https://github.com/MpDev89" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="#projects">Projects</a>
+        <a href="#resources">Resources</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
